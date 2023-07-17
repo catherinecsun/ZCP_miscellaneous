@@ -42,3 +42,8 @@ new.names
 
 #so do it
 sapply(ppts_toConvert,convert_to_pdf,new.names)
+
+#and put them in a new separate folder called "PDF_versions"
+dir.create("PDF_versions") 
+file.rename(from=new.names,
+            to=paste0("./PDF_versions",substring(new.names,2,nchar(new.names))))
