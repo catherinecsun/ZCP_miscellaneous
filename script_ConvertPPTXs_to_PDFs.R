@@ -1,12 +1,20 @@
 # Turning PPTs in a folder to PDFs
-#this requires LibreOffice on your computer
+## *NOTE 1* : this requires LibreOffice on your computer
+## *NOTE 2* : all powerpoints MUST BE IN PPTX, not ppt
+
 
 #### load libraries #### 
 # (installing if necessary)
-list.of.packages <- list("dplyr","purrr","docxtractr","stringr")
+list.of.packages <- list("dplyr","purrr","docxtractr")
 new.packages <- list.of.packages[!(list.of.packages %in% installed.packages()[,"Package"])]
-if(length(new.packages)) install.packages(new.packages)
-lapply(list.of.packages, require, character.only = TRUE)
+if(length(new.packages)>0) install.packages(new.packages)
+do.call("require", list.of.packages)
+
+#if the code above in Lines 8-11 dont work, can do this:
+# library("dplyr")
+# library("purrr")
+# library("stringr")
+# library("docxtractr")
 
 # You have to show the way to the LibreOffice 
 set_libreoffice_path("C:/Program Files/LibreOffice/program/soffice.exe")
