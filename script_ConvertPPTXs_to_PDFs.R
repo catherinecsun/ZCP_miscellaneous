@@ -5,7 +5,7 @@
 
 #### load libraries #### 
 # (installing if necessary)
-list.of.packages <- list("dplyr","purrr","docxtractr")
+list.of.packages <- list("dplyr","purrr","docxtractr","stringr")
 new.packages <- list.of.packages[!(list.of.packages %in% installed.packages()[,"Package"])]
 if(length(new.packages)>0) install.packages(new.packages)
 do.call("require", list.of.packages)
@@ -34,7 +34,12 @@ files_inFolder
 
 # exclude temporary ~$ files 
 toExclude<-c(which(grepl("./~$", files_inFolder, fixed = TRUE)))
-ppts_toConvert<-files_inFolder[-toExclude]
+if(length(toExclude)>1){
+  ppts_toConvert<-files_inFolder[-toExclude]
+}else{
+  ppts_toConvert<-files_inFolder
+}
+ppts_toConvert
 
 #and only include the pptx's because that's all docxtractr::convert_to_pdf can use
 toInclude<-which(grepl(".pptx", ppts_toConvert, fixed = TRUE))
@@ -49,7 +54,11 @@ new.names<-str_replace(ppts_toConvert[1:2],".pptx",".pdf")
 new.names
 
 #so do it
-sapply(ppts_toConvert,convert_to_pdf,new.names)
+#sapply(ppts_toConvert,convert_to_pdf,new.names) # sapply is acting funny?
+for(p in 1:length(ppts_toConvert)){
+  print(ppts_toConvert[p])
+  convert_to_pdf(ppts_toConvert[p],new.names[p])  
+}
 
 #and put them in a new separate folder called "PDF_versions"
 dir.create("PDF_versions") 
